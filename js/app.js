@@ -51,7 +51,16 @@ Player.prototype.render =function() {
 }
 //Player input method
 Player.prototype.handleInput = function(e) {
-    e.up = this.y--
+   if(e == 'up'){
+    this.y+205;
+   }else if(e == 'down'){
+    console.log('down');
+   }else if(e == 'left'){
+    console.log('left');
+   }else if(e == 'right'){
+    console.log('right');
+   }
+   
 }
 
 
@@ -59,14 +68,16 @@ Player.prototype.handleInput = function(e) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
+//Enemy objects
 var bob = new Enemy(0,50);
 var jane = new Enemy(-150, 150);
 var jill = new Enemy(200, 225);
-var bill = new Player(202,300);
-
 
 var allEnemies = [];
 allEnemies.push(bob,jane,jill);
+
+//Player Objects
+var bill = new Player(202,300);
 var player = bill;
 
 
