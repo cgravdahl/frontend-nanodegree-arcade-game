@@ -1,5 +1,8 @@
+//Global Constant Variables
+var LVL = 1;
+var ROW = [50,150,225];
 // Enemies our player must avoid
-var Enemy = function(x,y) {
+var Enemy = function(x,y,speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
@@ -8,8 +11,11 @@ var Enemy = function(x,y) {
     
     this.sprite = 'images/enemy-bug.png';
     this.x = x;
-    this.y = y;
+    this.y = ROW[y];
+    this.speed = speed;
+    
 }
+
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -17,8 +23,9 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-  
-    ++this.x*dt;
+    
+    
+    this.x += (this.speed * dt);
     if(this.x >= 600) {
         this.x = -15;
     }
@@ -79,12 +86,15 @@ Player.prototype.handleInput = function(e) {
 // Place the player object in a variable called player
 
 //Enemy objects
-var bob = new Enemy(0,50);
-var jane = new Enemy(-150, 150);
-var jill = new Enemy(200, 225);
-
 var allEnemies = [];
-allEnemies.push(bob,jane,jill);
+var maxEnemy = (LVL + 3);
+for(i=0;i<maxEnemy; i++){
+    var x = randNum(0,250);
+    var y = randNum(-1,3);
+    var speed = 50 + randNum(0,150);
+    allEnemies.push(new Enemy(x,y,speed));
+
+}
 
 //Player Objects
 var bill = new Player(202,300);
@@ -106,6 +116,11 @@ document.addEventListener('keyup', function(e) {
 var GFNC = function(paused,focus){
     this.paused = true;
     this.focus = false;
+}
+//Number Generator
+function randNum(start,end){
+   var num = Math.floor(Math.random() * (start - end + 1) + end);
+   return num;
 }
 
 
