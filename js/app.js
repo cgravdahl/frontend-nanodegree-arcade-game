@@ -42,10 +42,9 @@ var Player = function(x,y) {
 }
 //Player update function
 Player.prototype.update = function(dt) {
-    var vert = 83*dt; 
-
+    
     if(this.y <= 50){
-        console.log("winner");
+     
     }
     
 }
@@ -103,3 +102,12 @@ document.addEventListener('keyup', function(e) {
     };
     player.handleInput(allowedKeys[e.keyCode]);
 });
+//Class to handle game pause and instruction functions.
+var GFNC = function(paused,focus){
+    this.paused = true;
+    this.focus = false;
+}
+
+
+
+

@@ -39,6 +39,7 @@ var Engine = (function(global) {
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
+
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
@@ -58,7 +59,6 @@ var Engine = (function(global) {
          */
         win.requestAnimationFrame(main);
     };
-
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
      * game loop.
@@ -69,6 +69,22 @@ var Engine = (function(global) {
         main();
     }
 
+    function gameMenu() {
+        ctx.font = "30px Arial";
+        ctx.fillText("Hello World",10,50);
+        if(GFNC.paused === false){
+            init();
+        }else{
+            ctx.font = "30px Arial";
+            ctx.fillText("Please click to Continue", 10,100);
+            this.addEventListener('click', function(){
+                GFNC.paused = false;
+                gameMenu();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            },true)
+        }
+    }
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
      * you implement your collision detection (when two entities occupy the
@@ -160,7 +176,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -174,7 +190,7 @@ var Engine = (function(global) {
         'images/enemy-bug.png',
         'images/char-boy.png'
     ]);
-    Resources.onReady(init);
+    Resources.onReady(gameMenu);
 
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developer's can use it more easily
