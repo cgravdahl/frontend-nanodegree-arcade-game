@@ -23,20 +23,29 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    
-    
-    this.x += (this.speed * dt);
-    if(this.x >= 600) {
-        this.x = -15;
+    if(this.x < ctx.canvas.width) {
+        this.x += (this.speed * dt);
+    }else{
+        this.x = randNum(-100,-250);
+        this.row = randNum(-1,3);
+        this.y = ROW[this.row];
+        this.speed = speed = 50 + randNum(50,150);
     }
-
 }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
-
+//Collisions detection for enemy
+Enemy.prototype.collision = function(){
+    var left = this.x;
+    var right = this.x + 100;
+    return {
+        left: left,
+        right: right
+    };
+}
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -48,14 +57,12 @@ var Player = function(x,y) {
 
 }
 //Player update function
-Player.prototype.update = function(dt) {
-    
+Player.prototype.update = function(dt) {   
     if(this.y <= 50){
      
     }
     
 }
-
 //Player render method for drawing on the canvas
 Player.prototype.render =function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -77,10 +84,16 @@ Player.prototype.handleInput = function(e) {
    else if(e == 'right'){
     this.x += horz;
    }
-   
 }
-
-
+//Collisions detection for Player
+Player.prototype.collision = function(){
+    var left = this.x;
+    var right = this.x + 75;
+    return {
+        left: left,
+        right: right
+    };
+}
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player

@@ -96,7 +96,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function  and loops through all of the
@@ -111,6 +111,19 @@ var Engine = (function(global) {
              enemy.update(dt);
          });
          player.update(dt);
+    }
+    function checkCollisions(){
+        var positions = player.collision();
+        var pRight = positions.right;
+        var pLeft = positions.left;
+        allEnemies.forEach(function(enemy){
+            var ePos = enemy.collision();
+            var eRight = enemy.collision.right;
+            var eLeft = enemy.collision.left;
+            if(pLeft || pRight == eRight || eLeft){
+                    console.log(pLeft);   
+            }else{};
+        });
     }
 
     /* This function initially draws the "game level", it will then call
