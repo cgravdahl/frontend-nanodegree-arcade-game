@@ -118,11 +118,9 @@ var Engine = (function(global) {
         var pLeft = positions.left;
         allEnemies.forEach(function(enemy){
             var ePos = enemy.collision();
-            var eRight = enemy.collision.right;
-            var eLeft = enemy.collision.left;
-            if(pLeft || pRight == eRight || eLeft){
-                    console.log(pLeft);   
-            }else{};
+            if(ePos.right > positions.left){
+               // console.log("working");
+            }
         });
     }
 
