@@ -136,7 +136,3 @@ function randNum(start,end){
    var num = Math.floor(Math.random() * (start - end + 1) + end);
    return num;
 }
-
-
-
-
