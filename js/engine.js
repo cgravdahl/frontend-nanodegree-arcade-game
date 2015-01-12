@@ -46,8 +46,30 @@ var Engine = (function(global) {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        update(dt);
-        render();
+        if(GFNC.paused === false && GFNC.winner === false){
+            update(dt);
+            render();
+        }else if(GFNC.paused === true && GFNC.winner === false){
+            ctx.fillText("Game Over, Please click to Continue", 10,100);
+            this.addEventListener('click', function(){
+            GFNC.paused = false;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            player.x = 202;
+            player.y = 320;
+            this.removeEventListener('click');
+            },true)
+        }else if(GFNC.paused === true && GFNC.winner === true){
+            console.log("winner");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillText("Winner! Please click to Continue", 10,100);
+            this.addEventListener('click', function(){
+            GFNC.paused = false;
+            GFNC.winner = false;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            player.x = 202;
+            player.y = 320;
+            this.removeEventListener('click');
+        },true)}
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -57,8 +79,8 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
-    };
+        win.requestAnimationFrame(main); 
+    }  
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
      * game loop.
@@ -78,9 +100,10 @@ var Engine = (function(global) {
             ctx.font = "30px Arial";
             ctx.fillText("Please click to Continue", 10,100);
             this.addEventListener('click', function(){
-                GFNC.paused = false;
-                gameMenu();
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            GFNC.paused = false;
+            GFNC.winner = false;
+            gameMenu();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             },true)
         }
@@ -121,7 +144,7 @@ var Engine = (function(global) {
             p1.x + p1.width > e1.x &&
             p1.y < e1.y + e1.height&&
             p1.height + p1.y > e1.y){
-            console.log('Hit');
+            GFNC.paused = true;
         }
         });
         
@@ -190,7 +213,6 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        
     }
 
     /* Go ahead and load all of the images we know we're going to need to

@@ -60,7 +60,7 @@ var Player = function(x,y) {
 //Player update function
 Player.prototype.update = function(dt) {   
     if(this.y <= 50){
-     
+        GFNC.winner = true;
     }
     
 }
@@ -72,7 +72,6 @@ Player.prototype.render =function() {
 Player.prototype.handleInput = function(e) {
    var vert = 83;
    var horz = 103;
-
    if(e == 'up'){
     this.y -= vert;
    }
@@ -128,9 +127,10 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 //Class to handle game pause and instruction functions.
-var GFNC = function(paused,focus){
+var GFNC = function(paused,focus,winner){
     this.paused = true;
     this.focus = false;
+    this.winner = false;
 }
 //Number Generator
 function randNum(start,end){
