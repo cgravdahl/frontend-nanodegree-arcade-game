@@ -1,6 +1,6 @@
 //Global Constant Variables
 var LVL = 1;
-var ROW = [50,150,225];
+var ROW = [45,140,220];
 // Enemies our player must avoid
 var Enemy = function(x,y,speed) {
     // Variables applied to each of our instances go here,
@@ -39,13 +39,13 @@ Enemy.prototype.render = function() {
 }
 //Collisions detection for enemy
 Enemy.prototype.collision = function(){
-    var ePos = {
+   var ePos = {
         x: this.x,
         y: this.y,
-        width: 170,
-        height: 100
+        width: 50,
+        height: 70
     };
-    return ePos
+    return ePos;
 }
 // Now write your own player class
 // This class requires an update(), render() and
@@ -88,12 +88,13 @@ Player.prototype.handleInput = function(e) {
 }
 //Collisions detection for Player
 Player.prototype.collision = function(){
-    var pPos = = {
+    var pPos = {
         x: this.x,
         y: this.y,
-        width: 170,
-        height: 100
+        width: 80,
+        height: 50
     }
+    return pPos;
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -111,7 +112,7 @@ for(i=0;i<maxEnemy; i++){
 }
 
 //Player Objects
-var bill = new Player(202,300);
+var bill = new Player(202,320);
 var player = bill;
 
 

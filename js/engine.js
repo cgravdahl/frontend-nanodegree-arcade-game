@@ -113,15 +113,18 @@ var Engine = (function(global) {
          player.update(dt);
     }
     function checkCollisions(){
-        var positions = player.collision();
-        var pRight = positions.right;
-        var pLeft = positions.left;
+        var p1 = player.collision();
+        var e1 = {};
         allEnemies.forEach(function(enemy){
-            var ePos = enemy.collision();
-            if(ePos.right > positions.left){
-               // console.log("working");
-            }
+            e1 = enemy.collision()
+            if (p1.x < e1.x + e1.width &&
+            p1.x + p1.width > e1.x &&
+            p1.y < e1.y + e1.height&&
+            p1.height + p1.y > e1.y){
+            console.log('Hit');
+        }
         });
+        
     }
 
     /* This function initially draws the "game level", it will then call
