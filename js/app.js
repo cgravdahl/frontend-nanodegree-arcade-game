@@ -39,12 +39,13 @@ Enemy.prototype.render = function() {
 }
 //Collisions detection for enemy
 Enemy.prototype.collision = function(){
-    var left = this.x;
-    var right = this.x + 100;
-    return {
-        left: left,
-        right: right
+    var ePos = {
+        x: this.x,
+        y: this.y,
+        width: 170,
+        height: 100
     };
+    return ePos
 }
 // Now write your own player class
 // This class requires an update(), render() and
@@ -87,12 +88,12 @@ Player.prototype.handleInput = function(e) {
 }
 //Collisions detection for Player
 Player.prototype.collision = function(){
-    var left = this.x;
-    var right = this.x + 75;
-    return {
-        left: left,
-        right: right
-    };
+    var pPos = = {
+        x: this.x,
+        y: this.y,
+        width: 170,
+        height: 100
+    }
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -135,7 +136,3 @@ function randNum(start,end){
    var num = Math.floor(Math.random() * (start - end + 1) + end);
    return num;
 }
-
-
-
-
