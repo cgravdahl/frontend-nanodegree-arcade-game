@@ -61,6 +61,7 @@ var Player = function(x,y) {
 Player.prototype.update = function(dt) {   
     if(this.y <= 50){
         GFNC.winner = true;
+        GFNC.paused = true;
     }
     
 }
@@ -111,8 +112,8 @@ for(i=0;i<maxEnemy; i++){
 }
 
 //Player Objects
-var bill = new Player(202,320);
-var player = bill;
+ 
+var player = new Player(202,320); 
 
 
 // This listens for key presses and sends the keys to your
@@ -127,9 +128,8 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 //Class to handle game pause and instruction functions.
-var GFNC = function(paused,focus,winner){
+var GFNC = function(paused,winner){
     this.paused = true;
-    this.focus = false;
     this.winner = false;
 }
 //Number Generator
