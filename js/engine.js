@@ -23,6 +23,9 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
+        requestAnimationFrame = win.requestAnimationFrame,
+        cancelAnimationFrame = win.cancelAnimationFrame,
+        myAni,
         lastTime;
 
     canvas.width = 505;
@@ -50,6 +53,7 @@ var Engine = (function(global) {
             update(dt);
             render();
         }else if(GFNC.paused === true && GFNC.winner === true){
+
             reset();
             ctx.fillText("Winner! Please click to Continue", 10,100);
         }else if(GFNC.paused === true && GFNC.winner === false){
@@ -62,19 +66,19 @@ var Engine = (function(global) {
          * for the next time this function is called.
          */
         lastTime = now;
-        console.log(GFNC.paused)
 
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main); 
+
+        myAni = requestAnimationFrame(main); 
     }  
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
      * game loop.
      */
     function init() {
-        reset();
+        ctx.globalAlpha = 1;
         lastTime = Date.now();
         main();
     }
@@ -199,13 +203,15 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        cancelAnimationFrame(myAni);
+        var myTime = setTimeout(function(){ctx.clearRect(0, 0, canvas.width, canvas.height);},5000);
         this.addEventListener('click', function(){
         GFNC.paused = false;
         GFNC.winner = false;
         player.x = 202;
         player.y = 320;
         this.removeEventListener('click');
+        clearTimeout(myTime);
         },true)
     }
 
