@@ -1,11 +1,8 @@
 //Global Constant Variables
-var LVL = 1;
-var ROW = [45,140,220];
+var LVL = 1,
+ROW = [45,140,220];
 // Enemies our player must avoid
 var Enemy = function(x,y,speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     
@@ -13,9 +10,7 @@ var Enemy = function(x,y,speed) {
     this.x = x;
     this.y = ROW[y];
     this.speed = speed;
-    
 }
-
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -47,10 +42,9 @@ Enemy.prototype.collision = function(){
     };
     return ePos;
 }
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
+/* The Player class that sets up our player, watches for winning,
+ *  tracks score, lives and user input.
+ */
 var Player = function(x,y) {
     this.x = x;
     this.y = y;
@@ -63,7 +57,6 @@ Player.prototype.update = function(dt) {
         GFNC.winner = true;
         GFNC.paused = true;
     }
-    
 }
 //Player render method for drawing on the canvas
 Player.prototype.render =function() {
@@ -71,8 +64,8 @@ Player.prototype.render =function() {
 }
 //Player input method
 Player.prototype.handleInput = function(e) {
-   var vert = 83;
-   var horz = 103;
+   var vert = 83,
+   horz = 103;
    if(e == 'up'){
     this.y -= vert;
    }
@@ -86,7 +79,7 @@ Player.prototype.handleInput = function(e) {
     this.x += horz;
    }
 }
-//Collisions detection for Player
+//Collisions detection position for Player
 Player.prototype.collision = function(){
     var pPos = {
         x: this.x,
@@ -96,25 +89,38 @@ Player.prototype.collision = function(){
     }
     return pPos;
 }
+//Score tracker for Player
+Player.prototype.score = function(){
+
+}
+//Track lives for players
+Player.prototype.lives = function(){
+
+}
+/* This is the game object class, this will set the random 
+ * items that the player can run into and collect during the
+ * game.
+ */
+var KeyRock = function(x,y){
+    this.x = x;
+    this.y = y;
+}
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
 //Enemy objects
-var allEnemies = [];
-var maxEnemy = (LVL + 3);
+var allEnemies = [],
+maxEnemy = (LVL + 3);
 for(i=0;i<maxEnemy; i++){
     var x = randNum(0,250);
     var y = randNum(-1,3);
     var speed = 50 + randNum(0,150);
     allEnemies.push(new Enemy(x,y,speed));
-
 }
 
 //Player Objects
- 
 var player = new Player(202,320); 
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -127,7 +133,7 @@ document.addEventListener('keyup', function(e) {
     };
     player.handleInput(allowedKeys[e.keyCode]);
 });
-//Class to handle game pause and instruction functions.
+//Class to handle game pause and winner booleans.
 var GFNC = function(paused,winner){
     this.paused = true;
     this.winner = false;

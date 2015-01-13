@@ -125,6 +125,11 @@ var Engine = (function(global) {
          });
          player.update(dt);
     }
+    /* The check collision function that is called on each update to check if
+     * the player or the enimies interact with each other using AADD. Then 
+     * thows the paused variable to true, which is checked in the main()
+     * each time the frame runs.
+     */
     function checkCollisions(){
         var p1 = player.collision();
         var e1 = {};
@@ -137,7 +142,6 @@ var Engine = (function(global) {
             GFNC.paused = true;
         }
         });
-        
     }
 
     /* This function initially draws the "game level", it will then call
@@ -178,8 +182,6 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
-
-
         renderEntities();
     }
 
@@ -194,13 +196,13 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
-
         player.render();
     }
 
-    /* This function does nothing but it could have been a good place to
-     * handle game reset states - maybe a new game menu or a game over screen
-     * those sorts of things. It's only called once by the init() method.
+    /* This function stops the animation for the game, sets a timeout
+     * for clearing the canvas after a game stop. Resets the variables for 
+     * winning and if the game is paused, resets the player and sets a click
+     * event to restart the game and removes that click event.
      */
     function reset() {
         cancelAnimationFrame(myAni);
@@ -214,7 +216,6 @@ var Engine = (function(global) {
         clearTimeout(myTime);
         },true)
     }
-
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
@@ -227,7 +228,6 @@ var Engine = (function(global) {
         'images/char-boy.png'
     ]);
     Resources.onReady(gameMenu);
-
     /* Assign the canvas' context object to the global variable (the window
      * object when run in a browser) so that developer's can use it more easily
      * from within their app.js files.
