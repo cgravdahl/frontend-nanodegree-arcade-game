@@ -1,6 +1,24 @@
 //Global Constant Variables
 var LVL = 1,
 ROW = [45,140,220];
+/* This function will set up Convenient Inheritance; 
+ * This function was found at 
+ * http://phrogz.net/js/classes/OOPinJS2.html
+ */
+ Function.prototype.inheritsFrom = function(parentClassOrObject){
+    if(parentClassOrObject.constructor == Function){
+        //Normal Inheritance
+        this.prototype = new parentClassOrObject;
+        this.prototype.constructor = this;
+        this.prototype.parent = parentClassOrObject.prototype;
+    }else{
+        //Pure Virtual Inheritance
+        this.prototype = parentClassOrObject;
+        this.prototype.constructor = this;
+        this.prototype.parent = parentClassOrObject;
+    }
+    return this;
+ }
 // Enemies our player must avoid
 var Enemy = function(x,y,speed) {
     // The image/sprite for our enemies, this uses
@@ -15,9 +33,6 @@ var Enemy = function(x,y,speed) {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     if(this.x < ctx.canvas.width) {
         this.x += (this.speed * dt);
     }else{
