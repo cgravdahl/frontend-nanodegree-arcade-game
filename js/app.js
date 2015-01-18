@@ -1,8 +1,9 @@
 //Global Constant Variables
 var LVL = 1,
-ROW = [45,140,220];
+ROW = [45,140,220],
+PSCORE = 0;
 /* This function will set up Convenient Inheritance; 
- * This function was found at 
+ * This function is by Gavin Kistner, it can be found at 
  * http://phrogz.net/js/classes/OOPinJS2.html
  */
  Function.prototype.inheritsFrom = function(parentClassOrObject){
@@ -19,16 +20,25 @@ ROW = [45,140,220];
     }
     return this;
  }
+ /*This is the sprite Superclass that every object that is 
+  * rendered on the screen.
+  */
+function Sprite(x,y){
+    this.x = x;
+    this.y = y;
+}
+
+Sprite.prototype.render = function(){
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
 // Enemies our player must avoid
-var Enemy = function(x,y,speed) {
+function Enemy(x,y,speed){
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    
     this.sprite = 'images/enemy-bug.png';
-    this.x = x;
-    this.y = ROW[y];
     this.speed = speed;
 }
+Enemy.inheritsFrom(Sprite);
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -45,8 +55,8 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+    this.parent.render.call(this);
+    }
 //Collisions detection for enemy
 Enemy.prototype.collision = function(){
    var ePos = {
@@ -60,22 +70,27 @@ Enemy.prototype.collision = function(){
 /* The Player class that sets up our player, watches for winning,
  *  tracks score, lives and user input.
  */
-var Player = function(x,y) {
+function Player(x,y) {
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-boy.png';
 
 }
+Player.inheritsFrom(Sprite);
 //Player update function
 Player.prototype.update = function(dt) {   
     if(this.y <= 50){
         GFNC.winner = true;
         GFNC.paused = true;
     }
+    var displayScore = "Score:" + PSCORE;
+    ctx.lineWidth = 1;
+    ctx.font = "36px Arial";
+    ctx.strokeText(displayScore, 350,35);
 }
 //Player render method for drawing on the canvas
 Player.prototype.render =function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    this.parent.render.call(this);
 }
 //Player input method
 Player.prototype.handleInput = function(e) {
@@ -104,14 +119,6 @@ Player.prototype.collision = function(){
     }
     return pPos;
 }
-//Score tracker for Player
-Player.prototype.score = function(){
-
-}
-//Track lives for players
-Player.prototype.lives = function(){
-
-}
 /* This is the game object class, this will set the random 
  * items that the player can run into and collect during the
  * game.
@@ -120,6 +127,7 @@ var KeyRock = function(x,y){
     this.x = x;
     this.y = y;
 }
+KeyRock.inheritsFrom(Sprite);
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -135,7 +143,8 @@ for(i=0;i<maxEnemy; i++){
 }
 
 //Player Objects
-var player = new Player(202,320); 
+var player = new Player(202,320);
+player.score(PSCORE); 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

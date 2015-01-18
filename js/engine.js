@@ -81,6 +81,7 @@ var Engine = (function(global) {
         ctx.globalAlpha = 1;
         lastTime = Date.now();
         main();
+        
     }
 
     function gameMenu() {
@@ -96,6 +97,7 @@ var Engine = (function(global) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             },true)
+            
         }
     }
     /* This function is called by main (our game loop) and itself calls all
