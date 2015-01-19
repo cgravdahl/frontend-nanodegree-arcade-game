@@ -26,8 +26,8 @@ var Engine = (function(global) {
         requestAnimationFrame = win.requestAnimationFrame,
         cancelAnimationFrame = win.cancelAnimationFrame,
         myAni,
-        lastTime;
-
+        lastTime,
+        ctxWid = canvas.width/2;
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
@@ -53,14 +53,13 @@ var Engine = (function(global) {
             update(dt);
             render();
         }else if(GFNC.paused === true && GFNC.winner === true){
-
             reset();
             ctx.fillText("Winner! Please click to Continue", 10,100);
         }else if(GFNC.paused === true && GFNC.winner === false){
             reset();
             ctx.fillText("Game Over, Please click to Continue", 10,100);
         }
-        
+
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -71,8 +70,8 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
 
-        myAni = requestAnimationFrame(main); 
-    }  
+        myAni = requestAnimationFrame(main);
+    }
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
      * game loop.
@@ -81,7 +80,7 @@ var Engine = (function(global) {
         ctx.globalAlpha = 1;
         lastTime = Date.now();
         main();
-        
+
     }
 
     function gameMenu() {
@@ -89,7 +88,8 @@ var Engine = (function(global) {
             init();
         }else{
             ctx.font = "30px Arial";
-            ctx.fillText("Please click to Continue", 10,100);
+            ctx.fillText("Use your arrow keys to control", 10,100);
+            ctx.fillText("Please click to Continue", 10,150);
             this.addEventListener('click', function(){
             GFNC.paused = false;
             GFNC.winner = false;
@@ -97,7 +97,7 @@ var Engine = (function(global) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             },true)
-            
+
         }
     }
     /* This function is called by main (our game loop) and itself calls all
@@ -128,7 +128,7 @@ var Engine = (function(global) {
          player.update(dt);
     }
     /* The check collision function that is called on each update to check if
-     * the player or the enimies interact with each other using AADD. Then 
+     * the player or the enimies interact with each other using AADD. Then
      * thows the paused variable to true, which is checked in the main()
      * each time the frame runs.
      */
@@ -202,13 +202,13 @@ var Engine = (function(global) {
     }
 
     /* This function stops the animation for the game, sets a timeout
-     * for clearing the canvas after a game stop. Resets the variables for 
+     * for clearing the canvas after a game stop. Resets the variables for
      * winning and if the game is paused, resets the player and sets a click
      * event to restart the game and removes that click event.
      */
     function reset() {
         cancelAnimationFrame(myAni);
-        var myTime = setTimeout(function(){ctx.clearRect(0, 0, canvas.width, canvas.height);},5000);
+        var myTime = setTimeout(function(){ctx.clearRect(0, 0, canvas.width, canvas.height);},2000);
         this.addEventListener('click', function(){
         GFNC.paused = false;
         GFNC.winner = false;
