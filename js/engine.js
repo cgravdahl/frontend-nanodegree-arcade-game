@@ -27,10 +27,13 @@ var Engine = (function(global) {
         cancelAnimationFrame = win.cancelAnimationFrame,
         myAni,
         lastTime,
-        ctxWid = canvas.width/2;
+        ctxWid = canvas.width/2,
+        imageObj = new Image();
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+    imageObj.src = "images/froggerLaunch.jpg";
+    console.log("working");
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -80,23 +83,20 @@ var Engine = (function(global) {
         ctx.globalAlpha = 1;
         lastTime = Date.now();
         main();
-
     }
 
     function gameMenu() {
         if(GFNC.paused === false){
             init();
         }else{
-            ctx.font = "30px Arial";
-            ctx.fillText("Use your arrow keys to control", 10,100);
-            ctx.fillText("Please click to Continue", 10,150);
+            ctx.drawImage(imageObj, 0,0);
             this.addEventListener('click', function(){
             GFNC.paused = false;
             GFNC.winner = false;
             gameMenu();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            },true)
+            },true);
 
         }
     }
@@ -216,7 +216,7 @@ var Engine = (function(global) {
         player.y = 320;
         this.removeEventListener('click');
         clearTimeout(myTime);
-        },true)
+        },true);
     }
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
@@ -227,7 +227,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/froggerLaunch.jpg'
     ]);
     Resources.onReady(gameMenu);
     /* Assign the canvas' context object to the global variable (the window
@@ -235,4 +236,5 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+
 })(this);
